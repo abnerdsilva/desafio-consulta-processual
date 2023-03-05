@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: auto;
+}
+
+p.detalhe {
+  color: rgba(109, 109, 109, 0.87);
+  font-size: small;
+
+  text-align: start;
+}
