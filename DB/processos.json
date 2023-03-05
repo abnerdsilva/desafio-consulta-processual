@@ -1,0 +1,34 @@
+{
+    "nr_cnj": "NNNNNNN-NN.NNNN.N.NN.NNNN",
+    "status_processo": "Rito ordináro",
+    "autor": [
+        {
+            "nome": "Abner Silva",
+            "tipo": 1
+        },
+        {
+            "nome": "Larissa Silva",
+            "tipo": 2
+        }
+    ],
+    "tribunal_origem": [
+        {
+            "nome": "TJSP",
+            "status_tribunal": 1
+        }
+    ],
+    "vr_causa": 1549.88,
+    "data_inicio": "2023-03-04 15:29:36",
+    "movimentacoes": [
+        {
+            "id": "1",
+            "data_movimentacao": "2023-03-04 15:29:36",
+            "descricao": "Uma descriição da movimentação do processo"
+        },
+        {
+            "id": "1",
+            "data_movimentacao": "2023-03-04 15:29:36",
+            "descricao": "Uma descriição da movimentação do processo"
+        }
+    ]
+}
