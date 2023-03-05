@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import SearchComponent from '../../components/SearchComponent';
 
 function HomePage() {
     return(
@@ -10,15 +11,7 @@ function HomePage() {
                 <br />
                 <br />
                 
-                <select  name="select" style={{width: '15rem', height: '30px'}} placeholder='Tribunal'>
-                    <option value="valor1" selected>Tribunal</option>
-                    <option value="valor2">Valor 2</option>
-                    <option value="valor3">Valor 3</option>
-                </select>
-
-                <input type="text" placeholder='Numero de processo' style={{width:'15rem', height: '30px', marginLeft: '20px', marginRight: '20px'}} />
-
-                <button className='btn btn-secondary'>Buscar</button>
+                <SearchComponent />
             </div>
         </>
     )
