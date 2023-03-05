@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
@@ -7,26 +6,23 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='container-fluid' style={{backgroundColor: '#c7c7c7', padding: '30px'}}>
+        <h3 style={{textAlign:'left'}}>Buscar</h3>
+
+        Selecione um tribunal para lsitar os processos ou buscar pelo número unificado.
+        <br />
+        <br />
+        
+        <select name="select" style={{width: '15rem', height: '30px'}} placeholder='Tribunal'>
+          <option value="valor1" selected>Tribunal</option>
+          <option value="valor2">Valor 2</option>
+          <option value="valor3">Valor 3</option>
+        </select>
+
+        <input type="text" placeholder='Numero de processo' style={{width:'15rem', height: '30px', marginLeft: '20px', marginRight: '20px'}} />
+
+        <button className='btn btn-secondary'>Buscar</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
