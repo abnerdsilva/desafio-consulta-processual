@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func NewProcessoController(processoRepository repository.ProcessoRepository) ProcessoControllerInterface {
@@ -46,6 +47,9 @@ func (pc *processoController) CreateProcesso(c *gin.Context) {
 		return
 	}
 
+	tNrCNJ := tempProcesso.NrCNJ
+	tempProcesso.NrCNJ = tNrCNJ[:7] + "." + tNrCNJ[7:9] + "." + tNrCNJ[9:13] + "." + tNrCNJ[13:14] + "." + tNrCNJ[14:16] + "." + tNrCNJ[16:20]
+
 	createdProcess, err := pc.processoRepository.CreateProcesso(&tempProcesso)
 	if err != nil {
 		err2 := view.ParseError(fmt.Sprintf("Erro na criação do processo -> %s", err), http.StatusBadRequest)
@@ -74,6 +78,20 @@ func (p *processoController) ValidProcesso(processo *model.Processo) error {
 	if processo.NrCNJ == "" {
 		return fmt.Errorf("nr_cnj é um campo obrigatório")
 	}
+	if len(processo.NrCNJ) != 20 {
+		fmt.Println(len(processo.NrCNJ))
+		return fmt.Errorf("nr_cnj deve ter 20 caracteres")
+	}
+
+	num := []byte(processo.NrCNJ)
+	for i := 0; i < len(num); i++ {
+		tNum := fmt.Sprintf("%v", num[i])
+		tNumParsed, _ := strconv.Atoi(tNum)
+		if tNumParsed < 48 && tNumParsed > 57 {
+			return fmt.Errorf("nr_cnj deve ter apenas números")
+		}
+	}
+
 	if processo.DataInicio == "" {
 		return fmt.Errorf("data_inicio é um campo obrigatório")
 	}
