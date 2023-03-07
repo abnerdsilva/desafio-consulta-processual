@@ -1,27 +1,29 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
-function SearchComponent({ process, setProcess }) {
-    // const [process, setProcess] = useState([])
-
-    useEffect(() => {
-        console.log("[SearchComponent]:", process)
-    })
+function SearchComponent({ process, onClick, from }) {
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         if (process != undefined) {
-            let searchType = document.getElementById("search-select").value;
-            let searchDescription = document.getElementById("search").value;
-            if (searchDescription == '' || searchType == '') {
-                setProcess(process)
-                return
+            onClick()
+        } else if (from == 'details') {
+            let sparam = ''
+            if (document.getElementById('search').value != '') {
+                sparam = createSearchParams({
+                    type: document.getElementById("search-select").value,
+                    value: document.getElementById("search").value
+                }).toString()
             }
 
-            let processFiltered = process.filter((v) => searchType == 'Tribunal' ? v.tribunal_origem == searchDescription : v.nr_cnj == searchDescription)
-            setProcess(processFiltered)
+            navigate({
+                pathname: '/',
+                search: sparam
+            })
         }
     };
 

@@ -3,13 +3,20 @@ import Card from './components/Card';
 import SearchComponent from '../../components/SearchComponent';
 
 import './Index.css'
+import { useSearchParams } from 'react-router-dom';
 
 function HomePage() {
+    const [searchparams] = useSearchParams()
     const [process, setProcess] = useState([])
-    const [tempProcess, setTemProcess] = useState([])
+    const [tempProcess, setTempProcess] = useState([])
 
     useEffect(() => {
-        getAll();
+        getAll()
+
+        if (searchparams.get('value') != '') {
+            document.getElementById("search-select").value = searchparams.get('type')
+            document.getElementById("search").value = searchparams.get('value')
+        }
     }, []);
 
     let URL = 'http://localhost:8787'
@@ -21,12 +28,20 @@ function HomePage() {
             .then(response => response.json())
             .then(data => {
                 setProcess(data)
-                setTemProcess(data)
+                setTempProcess(data)
             });
     }
 
-    const changeProcess = (p) => {
-        setProcess(p)
+    const changeProcess = () => {
+        let searchType = document.getElementById("search-select").value;
+        let searchDescription = document.getElementById("search").value;
+        if (searchDescription == '' || searchType == '') {
+            setProcess(tempProcess)
+            return
+        }
+
+        let processFiltered = tempProcess.filter((v) => searchType == 'Tribunal' ? v.tribunal_origem == searchDescription : v.nr_cnj == searchDescription)
+        setProcess(processFiltered)
     }
 
     return (
@@ -40,10 +55,11 @@ function HomePage() {
 
                 <SearchComponent
                     process={tempProcess}
-                    setProcess={changeProcess} />
+                    onClick={changeProcess}
+                    from={'home'} />
             </div>
 
-            {process.map((p) => {
+            {(process == null || process == undefined) ? null : process.map((p) => {
                 return <Card key={p.nr_cnj} item={p} />
             })}
         </>

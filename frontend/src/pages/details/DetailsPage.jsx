@@ -6,7 +6,7 @@ import './Index.css'
 function DetailsPage() {
     return (
         <div className='row'>
-            <SearchComponent />
+            <SearchComponent from={'details'} />
 
             <hr />
             <br />
