@@ -8,7 +8,7 @@ type Processo struct {
 	DataInicio    string               `json:"data_inicio"`
 	Descricao     string               `json:"descricao"`
 	Tribunal      ProcessoTribunal     `json:"tribunal_origem"`
-	Status        string               `json:"status"`
+	Status        string               `json:"status_processo"`
 	NrInstancia   int                  `json:"nr_instancia"`
 	VrCausa       float64              `json:"vr_causa"`
 	Envolvidos    []ProcessoEnvolvidos `json:"envolvidos"`
@@ -16,14 +16,14 @@ type Processo struct {
 }
 
 type ProcessoEnvolvidos struct {
-	Nome  string `json:"nome"`
-	Tipo  int    `json:"tipo"`
-	Local string `json:"local"`
+	Nome string `json:"nome"`
+	Tipo int    `json:"tipo"`
 }
 
 type ProcessoTribunal struct {
-	Nome string `json:"nome"`
-	Tipo int    `json:"tipo"`
+	Nome  string `json:"nome"`
+	Tipo  string `json:"tipo"`
+	Local string `json:"local"`
 }
 
 type ProcessoHistorico struct {

@@ -20,6 +20,7 @@ func NewProcessoController(processoRepository repository.ProcessoRepository) Pro
 type ProcessoControllerInterface interface {
 	CreateProcesso(c *gin.Context)
 	GetProcessos(c *gin.Context)
+	GetProcesso(c *gin.Context)
 }
 
 type processoController struct {
@@ -81,6 +82,22 @@ func (pc *processoController) GetProcessos(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, processos)
+}
+
+func (pc *processoController) GetProcesso(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Methods", "GET, OPTIONS")
+
+	uid := c.Param("id")
+
+	processo, err := pc.processoRepository.GetProcesso(uid)
+	if err != nil {
+		log.Print(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "erro consulta processo"})
+		return
+	}
+
+	c.JSON(http.StatusOK, processo)
 }
 
 func (p *processoController) ValidProcesso(processo *model.Processo) error {

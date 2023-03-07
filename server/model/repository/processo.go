@@ -13,6 +13,7 @@ const Db = "../DB/processos.json"
 type ProcessoRepository interface {
 	CreateProcesso(processo *model.Processo) (*[]model.Processo, error)
 	GetProcessos() ([]model.Processo, error)
+	GetProcesso(uid string) (model.Processo, error)
 }
 
 type processoRepository struct{}
@@ -51,16 +52,37 @@ func (p *processoRepository) GetProcessos() ([]model.Processo, error) {
 		return nil, err
 	}
 
-	var processos []model.Processo
-	err = json.Unmarshal(fs, &processos)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
+	if len(fs) > 2 {
+		var processos []model.Processo
+		err = json.Unmarshal(fs, &processos)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
 
-	for _, value := range processos {
-		arr = append(arr, value)
+		for _, value := range processos {
+			arr = append(arr, value)
+		}
+
 	}
 
 	return arr, nil
+}
+
+func (p *processoRepository) GetProcesso(uid string) (model.Processo, error) {
+	processos, err := p.GetProcessos()
+	if err != nil {
+		log.Println(err)
+		return model.Processo{}, err
+	}
+
+	var processo model.Processo
+	for _, proc := range processos {
+		if proc.UID.String() == uid {
+			processo = proc
+			continue
+		}
+	}
+
+	return processo, nil
 }

@@ -12,6 +12,7 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/process", processControll.GetProcessos)
+	router.GET("/process/:id", processControll.GetProcesso)
 	router.POST("/process", processControll.CreateProcesso)
 
 	router.Run(":8787")
