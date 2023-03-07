@@ -13,7 +13,7 @@ function HomePage() {
     useEffect(() => {
         getAll()
 
-        if (searchparams.get('value') != '') {
+        if (searchparams.get('value') != '' && searchparams.get('value') != null) {
             document.getElementById("search-select").value = searchparams.get('type')
             document.getElementById("search").value = searchparams.get('value')
         }
@@ -40,7 +40,7 @@ function HomePage() {
             return
         }
 
-        let processFiltered = tempProcess.filter((v) => searchType == 'Tribunal' ? v.tribunal_origem == searchDescription : v.nr_cnj == searchDescription)
+        let processFiltered = tempProcess.filter((v) => searchType == 'Tribunal' ? v.tribunal_origem.nome == searchDescription : v.nr_cnj == searchDescription)
         setProcess(processFiltered)
     }
 
@@ -60,7 +60,7 @@ function HomePage() {
             </div>
 
             {(process == null || process == undefined) ? null : process.map((p) => {
-                return <Card key={p.nr_cnj} item={p} />
+                return <Card key={p.uid} item={p} />
             })}
         </>
     )
