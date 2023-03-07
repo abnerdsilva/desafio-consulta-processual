@@ -47,19 +47,15 @@ func (p *processoRepository) GetProcessos() ([]model.Processo, error) {
 
 	fs, err := ioutil.ReadFile(Db)
 	if err != nil {
-		str := "{}"
-		if err = ioutil.WriteFile(Db, []byte(str), 0644); err != nil {
-			log.Fatal(err)
-		}
+		log.Println(err)
+		return nil, err
 	}
 
 	var processos []model.Processo
 	err = json.Unmarshal(fs, &processos)
 	if err != nil {
-		str := "{}"
-		if err = ioutil.WriteFile(Db, []byte(str), 0644); err != nil {
-			log.Fatal(err)
-		}
+		log.Println(err)
+		return nil, err
 	}
 
 	for _, value := range processos {

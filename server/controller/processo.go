@@ -7,6 +7,7 @@ import (
 	"github.com/abnerdsilva/desafio-consulta-processual/model/repository"
 	"github.com/abnerdsilva/desafio-consulta-processual/view"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"log"
 	"net/http"
 )
@@ -33,9 +34,10 @@ func (pc *processoController) CreateProcesso(c *gin.Context) {
 	err := decoder.Decode(&tempProcesso)
 	if err != nil {
 		fmt.Printf("error %s", err)
-		c.JSON(501, gin.H{"error": err})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
+	tempProcesso.UID = uuid.New()
 
 	err = pc.ValidProcesso(&tempProcesso)
 	if err != nil {
@@ -61,11 +63,11 @@ func (pc *processoController) GetProcessos(c *gin.Context) {
 	processos, err := pc.processoRepository.GetProcessos()
 	if err != nil {
 		log.Print(err)
-		c.JSON(500, "erro consulta processos")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "erro consulta processos"})
 		return
 	}
 
-	c.JSON(200, processos)
+	c.JSON(http.StatusOK, processos)
 }
 
 func (p *processoController) ValidProcesso(processo *model.Processo) error {
@@ -74,6 +76,9 @@ func (p *processoController) ValidProcesso(processo *model.Processo) error {
 	}
 	if processo.DataInicio == "" {
 		return fmt.Errorf("data_inicio é um campo obrigatório")
+	}
+	if processo.Tribunal == "" {
+		return fmt.Errorf("tribunal é um campo obrigatório")
 	}
 
 	return nil
