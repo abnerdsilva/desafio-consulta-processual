@@ -10,20 +10,29 @@ type Processo struct {
 	NrCNJ         string               `json:"nr_cnj"`
 	Data          string               `json:"data_inicio"`
 	Descricao     string               `json:"descricao"`
-	Tribunal      string               `json:"tribunal_origem"`
+	Tribunal      ProcessoTribunal     `json:"tribunal_origem"`
+	Status        string               `json:"status"`
+	NrInstancia   int                  `json:"nr_instancia"`
 	VrCausa       float64              `json:"vr_causa"`
 	Envolvidos    []ProcessoEnvolvidos `json:"envolvidos"`
 	Movimentacoes []ProcessoHistorico  `json:"movimentacoes"`
 }
 
 type ProcessoEnvolvidos struct {
+	Nome  string `json:"nome"`
+	Tipo  int    `json:"tipo"`
+	Local string `json:"local"`
+}
+
+type ProcessoTribunal struct {
 	Nome string `json:"nome"`
 	Tipo int    `json:"tipo"`
 }
 
 type ProcessoHistorico struct {
-	DataMovimentacao string `json:"data_movimentacao"`
-	Descricao        string `json:"descricao"`
+	UID              uuid.UUID `json:"uid"`
+	DataMovimentacao string    `json:"data_movimentacao"`
+	Descricao        string    `json:"descricao"`
 }
 
 func ConvertProcessoToView(processo *[]model.Processo) *[]Processo {
@@ -33,8 +42,9 @@ func ConvertProcessoToView(processo *[]model.Processo) *[]Processo {
 		var envolvidos []ProcessoEnvolvidos
 		for _, envolvido := range pr.Envolvidos {
 			var tEnv = ProcessoEnvolvidos{
-				Nome: envolvido.Nome,
-				Tipo: envolvido.Tipo,
+				Nome:  envolvido.Nome,
+				Tipo:  envolvido.Tipo,
+				Local: envolvido.Local,
 			}
 
 			envolvidos = append(envolvidos, tEnv)
@@ -55,7 +65,8 @@ func ConvertProcessoToView(processo *[]model.Processo) *[]Processo {
 		p.NrCNJ = pr.NrCNJ
 		p.Data = pr.DataInicio
 		p.Descricao = pr.Descricao
-		p.Tribunal = pr.Tribunal
+		p.Tribunal.Nome = pr.Tribunal.Nome
+		p.Tribunal.Tipo = pr.Tribunal.Tipo
 		p.VrCausa = pr.VrCausa
 		p.Envolvidos = envolvidos
 		p.Movimentacoes = movimentacoes

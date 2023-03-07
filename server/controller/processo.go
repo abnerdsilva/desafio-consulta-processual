@@ -50,6 +50,15 @@ func (pc *processoController) CreateProcesso(c *gin.Context) {
 	tNrCNJ := tempProcesso.NrCNJ
 	tempProcesso.NrCNJ = tNrCNJ[:7] + "." + tNrCNJ[7:9] + "." + tNrCNJ[9:13] + "." + tNrCNJ[13:14] + "." + tNrCNJ[14:16] + "." + tNrCNJ[16:20]
 
+	var movimentacoes []model.ProcessoHistorico
+	for _, mov := range tempProcesso.Movimentacoes {
+		mov.UID = uuid.New()
+
+		movimentacoes = append(movimentacoes, mov)
+	}
+
+	tempProcesso.Movimentacoes = movimentacoes
+
 	createdProcess, err := pc.processoRepository.CreateProcesso(&tempProcesso)
 	if err != nil {
 		err2 := view.ParseError(fmt.Sprintf("Erro na criação do processo -> %s", err), http.StatusBadRequest)
@@ -95,7 +104,7 @@ func (p *processoController) ValidProcesso(processo *model.Processo) error {
 	if processo.DataInicio == "" {
 		return fmt.Errorf("data_inicio é um campo obrigatório")
 	}
-	if processo.Tribunal == "" {
+	if processo.Tribunal.Nome == "" {
 		return fmt.Errorf("tribunal é um campo obrigatório")
 	}
 

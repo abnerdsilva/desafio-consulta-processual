@@ -7,18 +7,27 @@ type Processo struct {
 	NrCNJ         string               `json:"nr_cnj"`
 	DataInicio    string               `json:"data_inicio"`
 	Descricao     string               `json:"descricao"`
-	Tribunal      string               `json:"tribunal_origem"`
+	Tribunal      ProcessoTribunal     `json:"tribunal_origem"`
+	Status        string               `json:"status"`
+	NrInstancia   int                  `json:"nr_instancia"`
 	VrCausa       float64              `json:"vr_causa"`
 	Envolvidos    []ProcessoEnvolvidos `json:"envolvidos"`
 	Movimentacoes []ProcessoHistorico  `json:"movimentacoes"`
 }
 
 type ProcessoEnvolvidos struct {
+	Nome  string `json:"nome"`
+	Tipo  int    `json:"tipo"`
+	Local string `json:"local"`
+}
+
+type ProcessoTribunal struct {
 	Nome string `json:"nome"`
 	Tipo int    `json:"tipo"`
 }
 
 type ProcessoHistorico struct {
-	DataMovimentacao string `json:"data_movimentacao"`
-	Descricao        string `json:"descricao"`
+	UID              uuid.UUID `json:"uid"`
+	DataMovimentacao string    `json:"data_movimentacao"`
+	Descricao        string    `json:"descricao"`
 }
