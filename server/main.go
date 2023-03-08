@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-	processRepo := repository.NewProcessoRepository()
+	dbFile := "../../../DB/processos.json"
+
+	processRepo := repository.NewProcessoRepository(dbFile)
 	processControll := controller.NewProcessoController(processRepo)
 
 	router := gin.Default()

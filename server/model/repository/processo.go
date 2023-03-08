@@ -8,18 +8,20 @@ import (
 	"log"
 )
 
-const Db = "../DB/processos.json"
-
 type ProcessoRepository interface {
 	CreateProcesso(processo *model.Processo) (*[]model.Processo, error)
 	GetProcessos() ([]model.Processo, error)
 	GetProcesso(uid string) (model.Processo, error)
 }
 
-type processoRepository struct{}
+type processoRepository struct {
+	DB string
+}
 
-func NewProcessoRepository() ProcessoRepository {
-	return &processoRepository{}
+func NewProcessoRepository(db string) ProcessoRepository {
+	return &processoRepository{
+		DB: db,
+	}
 }
 
 func (p *processoRepository) CreateProcesso(processo *model.Processo) (*[]model.Processo, error) {
@@ -39,14 +41,14 @@ func (p *processoRepository) CreateProcesso(processo *model.Processo) (*[]model.
 
 	file, _ := json.MarshalIndent(process, "", " ")
 
-	_ = ioutil.WriteFile(Db, file, 0644)
+	_ = ioutil.WriteFile(p.DB, file, 0644)
 	return &process, nil
 }
 
 func (p *processoRepository) GetProcessos() ([]model.Processo, error) {
 	arr := make([]model.Processo, 0)
 
-	fs, err := ioutil.ReadFile(Db)
+	fs, err := ioutil.ReadFile(p.DB)
 	if err != nil {
 		log.Println(err)
 		return nil, err
