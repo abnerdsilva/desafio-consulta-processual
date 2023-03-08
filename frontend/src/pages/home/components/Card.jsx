@@ -15,10 +15,21 @@ function Card({ item }) {
     return (
         <div style={{ padding: '20px', border: 'groove', margin: '10px' }} key={item.uid} onClick={() => onClickCardProcess(item)}>
             <div className='row'>
-                <p className="col-10">{item.nr_cnj}</p>
-                <p className="col-2 detalhe">{item.data_inicio}</p>
+                <h2 className="col-10">{item.nr_cnj}</h2>
+                <p className="col-2">{item.data_inicio}</p>
             </div>
-            <p className="detalhe">{item.descricao}</p>
+
+            {item.envolvidos == null
+                ? null
+                : item.envolvidos.map(p => (
+                    <>
+                        {p.tipo == 1 ? `Parte exequente:` : `Parte apelante: `} {p.nome}
+                        <br />
+                    </>
+                ))}
+
+            <br />
+            <p>{item.descricao}</p>
         </div>
     )
 }
