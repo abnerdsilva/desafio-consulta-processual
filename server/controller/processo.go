@@ -21,6 +21,7 @@ type ProcessoControllerInterface interface {
 	CreateProcesso(c *gin.Context)
 	GetProcessos(c *gin.Context)
 	GetProcesso(c *gin.Context)
+	ValidProcesso(processo *model.Processo) error
 }
 
 type processoController struct {
@@ -105,7 +106,6 @@ func (p *processoController) ValidProcesso(processo *model.Processo) error {
 		return fmt.Errorf("nr_cnj é um campo obrigatório")
 	}
 	if len(processo.NrCNJ) != 20 {
-		fmt.Println(len(processo.NrCNJ))
 		return fmt.Errorf("nr_cnj deve ter 20 caracteres")
 	}
 
@@ -113,7 +113,7 @@ func (p *processoController) ValidProcesso(processo *model.Processo) error {
 	for i := 0; i < len(num); i++ {
 		tNum := fmt.Sprintf("%v", num[i])
 		tNumParsed, _ := strconv.Atoi(tNum)
-		if tNumParsed < 48 && tNumParsed > 57 {
+		if tNumParsed < 48 || tNumParsed > 57 {
 			return fmt.Errorf("nr_cnj deve ter apenas números")
 		}
 	}
