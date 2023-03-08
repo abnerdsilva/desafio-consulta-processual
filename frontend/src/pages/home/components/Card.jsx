@@ -9,11 +9,7 @@ function Card({ item }) {
             return
         }
 
-        navigate(`/details/${p.uid}`, {
-            state: {
-                item: p
-            }
-        })
+        navigate(`/details/${p.uid}`)
     }
 
     return (
