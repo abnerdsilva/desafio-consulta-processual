@@ -62,12 +62,14 @@ function DetailsPage() {
                                 <hr />
 
                                 <p>Partes envolvidas</p>
-                                {item.envolvidos.map((e) => (
-                                    <div key={e.nome}>
-                                        {e.nome}
-                                        <p className='detalhe'>{e.tipo == 1 ? 'Parte envolvida - Exequente' : e.tipo == 2 ? 'Parte envolvida - Apelante' : 'Advogado envolvido'}</p>
-                                    </div>
-                                ))}
+                                {item.envolvidos != null && item.envolvidos != undefined
+                                    ? item.envolvidos.map((e) => (
+                                        <div key={e.nome}>
+                                            {e.nome}
+                                            <p className='detalhe'>{e.tipo == 1 ? 'Parte envolvida - Exequente' : e.tipo == 2 ? 'Parte envolvida - Apelante' : 'Advogado envolvido'}</p>
+                                        </div>
+                                    ))
+                                    : null}
                             </div>
                         </div>
                     </div>
