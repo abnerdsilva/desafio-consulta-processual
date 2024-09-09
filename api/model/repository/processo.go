@@ -6,6 +6,7 @@ import (
 	"github.com/abnerdsilva/desafio-consulta-processual/model"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type ProcessoRepository interface {
@@ -41,7 +42,7 @@ func (p *processoRepository) CreateProcesso(processo *model.Processo) (*[]model.
 
 	file, _ := json.MarshalIndent(process, "", " ")
 
-	_ = ioutil.WriteFile(p.DB, file, 0644)
+	_ = os.WriteFile(p.DB, file, 0644)
 	return &process, nil
 }
 

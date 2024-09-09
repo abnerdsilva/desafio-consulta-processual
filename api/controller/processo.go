@@ -101,7 +101,7 @@ func (pc *processoController) GetProcesso(c *gin.Context) {
 	c.JSON(http.StatusOK, processo)
 }
 
-func (p *processoController) ValidProcesso(processo *model.Processo) error {
+func (pc *processoController) ValidProcesso(processo *model.Processo) error {
 	if processo.NrCNJ == "" {
 		return fmt.Errorf("nr_cnj é um campo obrigatório")
 	}
