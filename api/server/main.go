@@ -8,13 +8,13 @@ import (
 )
 
 func main() {
-	dbFile := "../DB/processos.json"
+	dbFile := "../../DB/processos.json"
 
 	processRepo := repository.NewProcessoRepository(dbFile)
 	processControll := controller.NewProcessoController(processRepo)
 
 	router := gin.Default()
-	router.Use(static.Serve("/", static.LocalFile("../build", false)))
+	router.Use(static.Serve("/", static.LocalFile("../../build", false)))
 
 	router.GET("/process", processControll.GetProcessos)
 	router.GET("/process/:id", processControll.GetProcesso)
