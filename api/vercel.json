@@ -3,8 +3,5 @@
     "src": "./main.go",
     "use": "@vercel/go",
     "config": { "maxLambdaSize": "15mb" }
-  }],
-  "routes": [
-    { "src": "/(.*)", "dest": "/api" }
-  ]
+  }]
 }
